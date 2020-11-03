@@ -7,6 +7,7 @@ import {
   selectDevelopersFavoritesResources,
   selectLoggedinUser,
 } from "./store/selectors";
+import ResourcesSection from "./components/ResourcesSection";
 
 const selectResources = (state) => {
   return state.resources;
@@ -93,6 +94,7 @@ function App() {
           })}
         </ul>
       </div>
+      <ResourcesSection />
     </div>
   );
 }
