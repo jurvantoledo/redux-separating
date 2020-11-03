@@ -3,7 +3,10 @@ import DevelopersList from "./components/DevelopersList";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectDevelopersWithFavorite } from "./store/developers/selectors";
-import { selectDevelopersFavoritesResources } from "./store/selectors";
+import {
+  selectDevelopersFavoritesResources,
+  selectLoggedinUser,
+} from "./store/selectors";
 
 const selectResources = (state) => {
   return state.resources;
@@ -14,12 +17,13 @@ const selectDevelopers = (state) => {
 };
 
 function App() {
+  const loggedinUser = useSelector(selectLoggedinUser);
+
   const developers = useSelector(selectDevelopers);
   const resources = useSelector(selectResources);
 
   const [favoriteId, setFavoriteId] = useState(2);
   const [developerId, setDeveloperId] = useState(3);
-
   const developersWithThisFavorite = useSelector(
     selectDevelopersWithFavorite(favoriteId)
   );
@@ -30,6 +34,9 @@ function App() {
 
   return (
     <div className="App">
+      <p>
+        Welcome back, <strong>{loggedinUser.name}</strong>!
+      </p>
       <h1>Web development Resources</h1>
       <div className="statistic-container">
         <h3>{developers.numDevelopers}</h3>
