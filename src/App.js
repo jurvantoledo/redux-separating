@@ -1,23 +1,91 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import DevelopersList from "./components/DevelopersList";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectDevelopersWithFavorite } from "./store/developers/selectors";
+import { selectDevelopersFavoritesResources } from "./store/selectors";
+
+const selectResources = (state) => {
+  return state.resources;
+};
+
+const selectDevelopers = (state) => {
+  return state.developers;
+};
 
 function App() {
+  const developers = useSelector(selectDevelopers);
+  const resources = useSelector(selectResources);
+
+  const [favoriteId, setFavoriteId] = useState(2);
+  const [developerId, setDeveloperId] = useState(3);
+
+  const developersWithThisFavorite = useSelector(
+    selectDevelopersWithFavorite(favoriteId)
+  );
+
+  const favoriteResources = useSelector(
+    selectDevelopersFavoritesResources(developerId)
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Web development Resources</h1>
+      <div className="statistic-container">
+        <h3>{developers.numDevelopers}</h3>
+        <p>Developers</p>
+      </div>
+      <div className="statistic-container">
+        <h3>{developers.numResources}</h3>
+        <p>Resources</p>
+      </div>
+      <div>
+        <h2>
+          Who likes{" "}
+          <select
+            value={favoriteId}
+            onChange={(e) => setFavoriteId(parseInt(e.target.value))}
+          >
+            {resources.map((resource) => {
+              return (
+                <option key={resource.id} value={resource.id}>
+                  {resource.name}
+                </option>
+              );
+            })}
+          </select>
+          ?
+        </h2>
+        <ul>
+          {developersWithThisFavorite.map((dev) => {
+            return <li key={dev.id}>{dev.name}</li>;
+          })}
+        </ul>
+      </div>
+
+      <div>
+        <h2>
+          What are{" "}
+          <select
+            value={developerId}
+            onChange={(e) => setDeveloperId(parseInt(e.target.value))}
+          >
+            {developers.map((dev) => {
+              return (
+                <option key={dev.id} value={dev.id}>
+                  {dev.name}
+                </option>
+              );
+            })}
+          </select>
+          's favorites?
+        </h2>
+        <ul>
+          {favoriteResources.map((resource) => {
+            return <li key={resource.id}>{resource.name}</li>;
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
