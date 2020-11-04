@@ -8,6 +8,7 @@ import {
   selectLoggedinUser,
 } from "./store/selectors";
 import ResourcesSection from "./components/ResourcesSection";
+import ResourcesForm from "./components/ResourcesForm";
 
 const selectResources = (state) => {
   return state.resources;
@@ -95,6 +96,7 @@ function App() {
         </ul>
       </div>
       <ResourcesSection />
+      <ResourcesForm />
     </div>
   );
 }
